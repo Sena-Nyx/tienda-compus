@@ -297,5 +297,33 @@ class Gestor
         $conexion->cerrar();
         return $row->total;
     }
+    //contar productos 
+    public function contarProductosPorCategoria($id_categoria)
+    {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $sql = "SELECT COUNT(*) as total FROM productos WHERE id_categoria = '$id_categoria'";
+        $conexion->consulta($sql);
+        $result = $conexion->obtenerResult();
+        $row = $result->fetch_object();
+        $conexion->cerrar();
+        return $row->total;
+    }
+
+    public function consultarProductosPorCategoriaPaginados($id_categoria, $offset, $limit)
+    {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $sql = "SELECT p.id, p.nombre, p.marca, p.modelo, p.tipo, p.especificaciones, p.precio, c.nombre AS categoria, 
+                   (SELECT imagen FROM imagenes WHERE id_producto = p.id LIMIT 1) AS imagen
+            FROM productos p
+            JOIN categorias c ON p.id_categoria = c.id
+            WHERE p.id_categoria = '$id_categoria'
+            LIMIT $offset, $limit";
+        $conexion->consulta($sql);
+        $result = $conexion->obtenerResult();
+        $conexion->cerrar();
+        return $result;
+    }
 }
 
