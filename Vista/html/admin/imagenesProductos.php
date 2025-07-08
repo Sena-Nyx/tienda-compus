@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tienda de Tenis</title>
   <link rel="stylesheet" href="Vista/css/styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <header>
@@ -24,44 +23,31 @@
 
   <section id="panel-admin">
     <h2>Panel de Administración</h2>
-
     <div class="admin-section">
-      <h2>Productos</h2>
-      <button><a href='index.php?accion=mostrarAgregarProducto'>Agregar Producto</a></button>
-      <div class="admin-section">
+      <h2>Imagenes asociadas</h2>
         <table>
           <thead>
             <tr>
               <th>ID</th>
-              <th>Nombre</th>
-              <th>Marca</th>
-              <th>Modelo</th>
-              <th>Tipo</th>
-              <th>Especificaciones</th>
-              <th>Precio</th>
+              <th>Imagen</th>
               <th>Acciones</th>
             </tr>
           </thead>
-          <?php while($prod = $productos->fetch_object()) { ?>
+          <?php while($img = $imagenes->fetch_object()) { ?>
           <tbody>
             <tr>
-              <td><?php echo $prod->id; ?></td>
-              <td><?php echo $prod->nombre; ?></td>
-              <td><?php echo $prod->marca; ?></td>
-              <td><?php echo $prod->modelo; ?></td>
-              <td><?php echo $prod->tipo; ?></td>
-              <td><?php echo $prod->especificaciones; ?></td>
-              <td><?php echo $prod->precio; ?></td>
+              <td><?php echo $img->id; ?></td>
+              <td><img src="<?php echo $img->imagen; ?>" width="120"></td>
               <td>
-                <a href="index.php?accion=mostrarEditarProducto&id=<?php echo $prod->id; ?>"><button>Editar</button></a>
-                <a href="index.php?accion=eliminarProducto&id=<?php echo $prod->id; ?>" onclick="return confirm('Esta seguro que quiere eliminar esta productoahor?');"><button>Eliminar</button></a>
-                <a href="index.php?accion=mostrarImagenesProducto&id=<?php echo $prod->id; ?>"><button>Imagenes</button></a>
+                <a href="index.php?accion=eliminarImagen&id=<?php echo $img->id; ?>&id_producto=<?php echo $img->id_producto; ?>" onclick="return confirm('¿Seguro que desea eliminar esta imagen?');">
+                  <button type="button">Eliminar</button>
+                </a>
               </td>
             </tr>
           </tbody>
           <?php } ?>
         </table>
-      </div>
+    </div>
   </section>
 
   <footer>

@@ -77,8 +77,9 @@ if (isset($_GET["accion"])) {
         $controlador->guardarPedido($_POST);
     } elseif ($_GET["accion"] == "cambiarEstadoPedido") {
         $controlador->requireLogin();
-        $controlador->cambiarEstadoPedido($_POST);
-    } elseif ($_GET["accion"] == "cerrarSesion") {
+        $controlador->cambiarEstadoPedido($_POST);}
+
+    elseif ($_GET["accion"] == "cerrarSesion") {
         session_destroy();
         header("Location: index.php");
         exit;
