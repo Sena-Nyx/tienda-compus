@@ -1,8 +1,6 @@
 <?php
 class Controlador
 {
-    public function obtenerPaginacion($categoria = null) {}
-
     public function verPagina($ruta)
     {
         require_once $ruta;
@@ -14,6 +12,15 @@ class Controlador
         $gestor = new Gestor();
         $categoria = $gestor->consultarCategorias();
         $productos = $gestor->consultarProductos();
+
+        $pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+        $por_pagina = 5; 
+        $offset = ($pagina - 1) * $por_pagina;
+        $total_productos = $gestor->contarProductos();
+        $total_paginas = ceil($total_productos / $por_pagina);
+
+        $productos = $gestor->consultarProductosPaginados($offset, $por_pagina);
+
         require 'Vista/html/catalogo.php';
     }
 

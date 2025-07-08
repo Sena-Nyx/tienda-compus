@@ -1,6 +1,11 @@
 <?php
-class Gestor {
-    public function consultarProductos() {
+
+use PSpell\Config;
+
+class Gestor
+{
+    public function consultarProductos()
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "SELECT p.id, p.nombre, p.marca, p.modelo, p.tipo, p.especificaciones, p.precio, c.nombre AS categoria
@@ -13,7 +18,8 @@ class Gestor {
         return $result;
     }
 
-    public function validarLogin($email, $clave) {
+    public function validarLogin($email, $clave)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "SELECT * FROM usuarios WHERE correo = '$email' AND password = '$clave' AND rol = 'admin'";
@@ -24,7 +30,8 @@ class Gestor {
         return $result;
     }
 
-    public function agregarProducto(Productos $producto) {
+    public function agregarProducto(Productos $producto)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $nombre = $producto->obtenerNombre();
@@ -41,17 +48,19 @@ class Gestor {
         return $id_producto;
     }
 
-    public function consultarImagenesProducto($id_producto) {
+    public function consultarImagenesProducto($id_producto)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "SELECT * FROM imagenes WHERE id_producto = '$id_producto'";
         $conexion->consulta($sql);
         $result = $conexion->obtenerResult();
         $conexion->cerrar();
-        return $result; 
+        return $result;
     }
 
-    public function eliminarImagenProducto($id_imagen) {
+    public function eliminarImagenProducto($id_imagen)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "SELECT imagen FROM imagenes WHERE id = '$id_imagen'";
@@ -66,7 +75,8 @@ class Gestor {
         $conexion->cerrar();
     }
 
-    public function agregarImagenProducto(Imagenes $imagen) {
+    public function agregarImagenProducto(Imagenes $imagen)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $id_producto = $imagen->obtenerIdProducto();
@@ -76,7 +86,8 @@ class Gestor {
         $conexion->cerrar();
     }
 
-    public function consultarCategorias() {
+    public function consultarCategorias()
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "SELECT * FROM categorias";
@@ -87,7 +98,8 @@ class Gestor {
         return $result;
     }
 
-    public function consultarProductoPorId($id) {
+    public function consultarProductoPorId($id)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "SELECT * FROM productos WHERE id = '$id'";
@@ -98,7 +110,8 @@ class Gestor {
         return $result->fetch_object();
     }
 
-    public function consultarProductosPorCategoria($id_categoria) {
+    public function consultarProductosPorCategoria($id_categoria)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "SELECT p.id, p.nombre, p.descripcion, p.precio, p.imagen, c.nombre AS categoria
@@ -111,7 +124,8 @@ class Gestor {
         return $result;
     }
 
-    public function editarProductos($id, $nombre, $marca, $modelo, $tipo, $especificaciones, $precio, $categoria) {
+    public function editarProductos($id, $nombre, $marca, $modelo, $tipo, $especificaciones, $precio, $categoria)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "UPDATE productos SET nombre='$nombre', marca='$marca', modelo='$modelo', tipo='$tipo', especificaciones='$especificaciones', precio='$precio', id_categoria='$categoria' WHERE id='$id'";
@@ -119,7 +133,8 @@ class Gestor {
         $conexion->cerrar();
     }
 
-    public function eliminarProductos($id) {
+    public function eliminarProductos($id)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "DELETE FROM productos WHERE id='$id'";
@@ -127,7 +142,8 @@ class Gestor {
         $conexion->cerrar();
     }
 
-    public function agregarCategorias(Categorias $categoria) {
+    public function agregarCategorias(Categorias $categoria)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $nombre = $categoria->obtenerNombre();
@@ -136,7 +152,8 @@ class Gestor {
         $conexion->cerrar();
     }
 
-    public function editarCategoria($id, $nombre) {
+    public function editarCategoria($id, $nombre)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "UPDATE categorias SET nombre='$nombre' WHERE id='$id'";
@@ -144,7 +161,8 @@ class Gestor {
         $conexion->cerrar();
     }
 
-    public function consultarCategoriaPorId($id) {
+    public function consultarCategoriaPorId($id)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "SELECT * FROM categorias WHERE id = '$id'";
@@ -153,7 +171,8 @@ class Gestor {
         $conexion->cerrar();
         return $result->fetch_object();
     }
-    public function eliminarCategorias($id) {
+    public function eliminarCategorias($id)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "DELETE FROM categorias WHERE id='$id'";
@@ -161,7 +180,8 @@ class Gestor {
         $conexion->cerrar();
     }
 
-    public function consultarPedidos() {
+    public function consultarPedidos()
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "SELECT p.id, u.nombre AS cliente, pr.nombre AS producto, p.cantidad, p.fecha, p.estado
@@ -174,7 +194,8 @@ class Gestor {
         return $result;
     }
 
-    public function registrarUsuario($nombre, $correo, $password, $rol) {
+    public function registrarUsuario($nombre, $correo, $password, $rol)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $passwordHash = password_hash($password, PASSWORD_DEFAULT); /* Hashear la contraseña */
@@ -183,7 +204,8 @@ class Gestor {
         $conexion->cerrar();
     }
 
-    public function buscarUsuarioCliente($correo, $password) {
+    public function buscarUsuarioCliente($correo, $password)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "SELECT * FROM usuarios WHERE correo = '$correo' AND rol = 'cliente'";
@@ -197,7 +219,8 @@ class Gestor {
         return false;
     }
 
-    public function guardarPedido($id_usuario, $id_producto, $cantidad) {
+    public function guardarPedido($id_usuario, $id_producto, $cantidad)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $fecha = date('Y-m-d H:i:s');
@@ -207,7 +230,8 @@ class Gestor {
         $conexion->cerrar();
     }
 
-    public function actualizarEstadoPedido($id_pedido, $nuevo_estado) {
+    public function actualizarEstadoPedido($id_pedido, $nuevo_estado)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "UPDATE pedidos SET estado = '$nuevo_estado' WHERE id = '$id_pedido'";
@@ -215,7 +239,8 @@ class Gestor {
         $conexion->cerrar();
     }
 
-    public function consultarProductoMasVendido() {
+    public function consultarProductoMasVendido()
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "SELECT pr.nombre, SUM(p.cantidad) AS total_vendidos
@@ -231,13 +256,46 @@ class Gestor {
         return $result->fetch_object();
     }
 
+<
+  
+  
     public function consultarImagenesProductos($id_producto) {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "SELECT * FROM imagenes WHERE id_producto = '$id_producto'";
+=
+    //Paginación de productos
+    public function consultarProductosPaginados($offset, $limit)
+    {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $sql = "SELECT p.id, p.nombre, p.marca, p.modelo, p.tipo, p.especificaciones, p.precio, c.nombre AS categoria, 
+                   (SELECT imagen FROM imagenes WHERE id_producto = p.id LIMIT 1) AS imagen
+            FROM productos p
+            JOIN categorias c ON p.id_categoria = c.id
+            LIMIT $offset, $limit";
+
         $conexion->consulta($sql);
         $result = $conexion->obtenerResult();
         $conexion->cerrar();
         return $result;
     }
+  
+  
+
 }
+
+
+    public function contarProductos()
+    {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $sql = "SELECT COUNT(*) as total FROM productos";
+        $conexion->consulta($sql);
+        $result = $conexion->obtenerResult();
+        $row = $result->fetch_object();
+        $conexion->cerrar();
+        return $row->total;
+    }
+}
+

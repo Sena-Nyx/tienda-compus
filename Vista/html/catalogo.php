@@ -64,7 +64,19 @@
       <?php } ?>
     </div>
   </section>
-
+  </div>
+  <!-- Paginación -->
+  <div style="text-align:center; margin-top:2rem;">
+    <?php if (isset($total_paginas) && $total_paginas > 1): ?>
+      <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
+        <?php if ($i == $pagina): ?>
+          <strong><?php echo $i; ?></strong>
+        <?php else: ?>
+          <a href="index.php?accion=mostrarCatalogo&pagina=<?php echo $i; ?>"><?php echo $i; ?></a>
+        <?php endif; ?>
+      <?php endfor; ?>
+    <?php endif; ?>
+  </div>
   <footer>
     <p>&copy; 2025 Tienda de Tenis. Todos los derechos reservados.</p>
   </footer>
