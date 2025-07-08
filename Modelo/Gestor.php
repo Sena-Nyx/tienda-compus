@@ -230,4 +230,14 @@ class Gestor {
         $conexion->cerrar();
         return $result->fetch_object();
     }
+
+    public function consultarImagenesProductos($id_producto) {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $sql = "SELECT * FROM imagenes WHERE id_producto = '$id_producto'";
+        $conexion->consulta($sql);
+        $result = $conexion->obtenerResult();
+        $conexion->cerrar();
+        return $result;
+    }
 }

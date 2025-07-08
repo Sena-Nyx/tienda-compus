@@ -23,7 +23,6 @@
         <h1><?php echo ($producto->nombre); ?></h1>
         <img src="<?php echo ($producto->imagen); ?>" width="170">
         <p>Categoría: <?php echo ($producto->id_categoria); ?></p>
-        <p>Talla: <?php echo ($producto->descripcion); ?></p>
         <p>Precio: $<?php echo number_format($producto->precio, 0, ',', '.'); ?></p>
 
         <input type="hidden" name="id_producto" value="<?php echo $producto->id; ?>">

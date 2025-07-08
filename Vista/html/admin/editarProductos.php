@@ -54,7 +54,6 @@
           ?>
               <div>
                   <img src="<?php echo $img->imagen; ?>" width="60"><br>
-                  <input type="checkbox" name="eliminar_imagenes[]" value="<?php echo $img->id; ?>"> Eliminar
               </div>
           <?php
               }

@@ -135,14 +135,7 @@ class Controlador{
         /* 1. Actualizar datos del producto */
         $gestor->editarProductos($id, $nombre, $marca, $modelo, $tipo, $especificaciones, $precio, $categoria);
 
-        /* 2. Eliminar imágenes seleccionadas */
-        if (isset($post['eliminar_imagenes'])) {
-            foreach ($post['eliminar_imagenes'] as $id_imagen) {
-                $gestor->eliminarImagenProducto($id_imagen);
-            }
-        }
-
-        /* 3. Agregar nuevas imagenes */
+        /* 2. Agregar nuevas imagenes */
         $imagenes = $files['imagenes'];
         $ruta_destino = "Uploads/";
         $extensiones = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp'];
@@ -178,6 +171,20 @@ class Controlador{
         }
         $gestor->eliminarProductos($id);
         header("Location: index.php?accion=mostrarAdminProductos");
+        exit;
+    }
+
+    public function mostrarImagenesProductos() {
+        $gestor = new Gestor();
+        $id_producto = $_GET['id'];
+        $imagenes = $gestor->consultarImagenesProductos($id_producto);
+        require 'Vista/html/admin/imagenesProductos.php';
+    }
+
+    public function eliminarImagen($id_imagen, $id_producto) {
+        $gestor = new Gestor();
+        $gestor->eliminarImagenProducto($id_imagen);
+        header("Location: index.php?accion=mostrarImagenesProducto&id=$id_producto");
         exit;
     }
     /* Fin Productos */

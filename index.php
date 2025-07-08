@@ -117,6 +117,16 @@ if (isset($_GET["accion"])) {
         $controlador->cambiarEstadoPedido($_POST);
     }
 
+    elseif ($_GET["accion"] == "mostrarImagenesProducto") {
+        $controlador->requireLogin();
+        $controlador->mostrarImagenesProductos();
+    }
+
+    elseif ($_GET["accion"] == "eliminarImagen") {
+        $controlador->requireLogin();
+        $controlador->eliminarImagen($_GET["id"], $_GET["id_producto"]);
+    }
+
     elseif ($_GET["accion"] == "cerrarSesion") {
         session_destroy();
         header("Location: index.php");
