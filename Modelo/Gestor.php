@@ -256,14 +256,17 @@ class Gestor
         return $result->fetch_object();
     }
 
-<
-  
-  
-    public function consultarImagenesProductos($id_producto) {
+    public function consultarImagenesProductos($id_producto) 
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "SELECT * FROM imagenes WHERE id_producto = '$id_producto'";
-=
+        $conexion->consulta($sql);
+        $result = $conexion->obtenerResult();
+        $conexion->cerrar();
+        return $result;
+    }
+
     //Paginación de productos
     public function consultarProductosPaginados($offset, $limit)
     {
@@ -274,17 +277,11 @@ class Gestor
             FROM productos p
             JOIN categorias c ON p.id_categoria = c.id
             LIMIT $offset, $limit";
-
         $conexion->consulta($sql);
         $result = $conexion->obtenerResult();
         $conexion->cerrar();
         return $result;
     }
-  
-  
-
-}
-
 
     public function contarProductos()
     {
