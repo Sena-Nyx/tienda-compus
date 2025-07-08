@@ -14,7 +14,7 @@ class Controlador
         $productos = $gestor->consultarProductos();
 
         $pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-        $por_pagina = 5; 
+        $por_pagina = 5;
         $offset = ($pagina - 1) * $por_pagina;
         $total_productos = $gestor->contarProductos();
         $total_paginas = ceil($total_productos / $por_pagina);
@@ -24,15 +24,24 @@ class Controlador
         require 'Vista/html/catalogo.php';
     }
 
-    public function filtrarCategorias($categoria)
+    public function filtrarCategorias($id_categoria)
     {
         $gestor = new Gestor();
-        if (empty($categoria)) {
-            $productos = $gestor->consultarProductos();
-        } else {
-            $productos = $gestor->consultarProductosPorCategoria($categoria);
-        }
         $categoria = $gestor->consultarCategorias();
+
+        $pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+        $por_pagina = 5;
+        $offset = ($pagina - 1) * $por_pagina;
+
+        if (empty($id_categoria)) {
+            $total_productos = $gestor->contarProductos();
+            $productos = $gestor->consultarProductosPaginados($offset, $por_pagina);
+        } else {
+            $total_productos = $gestor->contarProductosPorCategoria($id_categoria);
+            $productos = $gestor->consultarProductosPorCategoriaPaginados($id_categoria, $offset, $por_pagina);
+        }
+        $total_paginas = ceil($total_productos / $por_pagina);
+
         require 'Vista/html/catalogo.php';
     }
     /* Fin Catalogo */
