@@ -256,34 +256,31 @@ class Gestor
         return $result->fetch_object();
     }
 
-<
-  
-  
     public function consultarImagenesProductos($id_producto) {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "SELECT * FROM imagenes WHERE id_producto = '$id_producto'";
-=
+        $conexion->consulta($sql);
+        $result = $conexion->obtenerResult();   
+        $conexion->cerrar();
+        return $result;
+    }
     //Paginación de productos
     public function consultarProductosPaginados($offset, $limit)
     {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "SELECT p.id, p.nombre, p.marca, p.modelo, p.tipo, p.especificaciones, p.precio, c.nombre AS categoria, 
-                   (SELECT imagen FROM imagenes WHERE id_producto = p.id LIMIT 1) AS imagen
-            FROM productos p
-            JOIN categorias c ON p.id_categoria = c.id
-            LIMIT $offset, $limit";
+                (SELECT imagen FROM imagenes WHERE id_producto = p.id LIMIT 1) AS imagen
+                FROM productos p
+                JOIN categorias c ON p.id_categoria = c.id
+                LIMIT $offset, $limit";
 
         $conexion->consulta($sql);
         $result = $conexion->obtenerResult();
         $conexion->cerrar();
         return $result;
     }
-  
-  
-
-}
 
 
     public function contarProductos()
@@ -315,11 +312,11 @@ class Gestor
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "SELECT p.id, p.nombre, p.marca, p.modelo, p.tipo, p.especificaciones, p.precio, c.nombre AS categoria, 
-                   (SELECT imagen FROM imagenes WHERE id_producto = p.id LIMIT 1) AS imagen
-            FROM productos p
-            JOIN categorias c ON p.id_categoria = c.id
-            WHERE p.id_categoria = '$id_categoria'
-            LIMIT $offset, $limit";
+                (SELECT imagen FROM imagenes WHERE id_producto = p.id LIMIT 1) AS imagen
+                FROM productos p
+                JOIN categorias c ON p.id_categoria = c.id
+                WHERE p.id_categoria = '$id_categoria'
+                LIMIT $offset, $limit";
         $conexion->consulta($sql);
         $result = $conexion->obtenerResult();
         $conexion->cerrar();
