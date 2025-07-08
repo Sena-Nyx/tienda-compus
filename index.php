@@ -24,7 +24,9 @@ if (isset($_GET["accion"])) {
         $controlador->registrarUsuario($_POST);
     } elseif ($_GET["accion"] == "procesarLoginCliente") {
         $controlador->procesarLoginCliente($_POST["correo"], $_POST["password"]);
-    } elseif ($_GET["accion"] == "mostrarAdminProductos") {
+    }elseif($_GET["accion"] == "mostrarCatalogo"){
+        $controlador->mostrarCatalogo();
+    }elseif ($_GET["accion"] == "mostrarAdminProductos") {
         $controlador->requireLogin();
         $controlador->mostrarProductos();
     } elseif ($_GET["accion"] == "mostrarAgregarProducto") {

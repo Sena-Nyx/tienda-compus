@@ -12,7 +12,7 @@
         <h1>Carrito de Compras</h1>
         <nav>
             <a href="index.php">Inicio</a>
-            <a href="#catalogo">Catálogo</a>
+            <a href="index.php?accion=mostrarCatalogo">Catálogo</a>
             <a href="index.php?accion=mostrarLoginAdmin">Zona Admin</a>
             <a href="index.php?accion=mostrarLoginCliente">Login</a>
             <a href="index.php?accion=verCarrito">Ver Carrito</a>
