@@ -11,9 +11,10 @@
     <h1>Tienda de Tenis</h1>
     <nav>
       <a href="index.php">Inicio</a>
-      <a href="index.php">Catálogo</a>
+      <a href="#catalogo">Catálogo</a>
       <a href="index.php?accion=mostrarLoginAdmin">Zona Admin</a>
       <a href="index.php?accion=mostrarLoginCliente">Login</a>
+      <a href="index.php?accion=verCarrito">Ver Carrito</a>
     </nav>
   </header>
   <section id="solicitar-pedido">

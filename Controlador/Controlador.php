@@ -1,22 +1,24 @@
 <?php
-class Controlador{
-    public function obtenerPaginacion($categoria = null){
-        
-    }
+class Controlador
+{
+    public function obtenerPaginacion($categoria = null) {}
 
-    public function verPagina($ruta){
+    public function verPagina($ruta)
+    {
         require_once $ruta;
     }
 
     /* Catalogo */
-    public function mostrarCatalogo(){
+    public function mostrarCatalogo()
+    {
         $gestor = new Gestor();
         $categoria = $gestor->consultarCategorias();
         $productos = $gestor->consultarProductos();
         require 'Vista/html/catalogo.php';
     }
 
-    public function filtrarCategorias($categoria){
+    public function filtrarCategorias($categoria)
+    {
         $gestor = new Gestor();
         if (empty($categoria)) {
             $productos = $gestor->consultarProductos();
@@ -29,7 +31,8 @@ class Controlador{
     /* Fin Catalogo */
 
     /* Verificar sesion */
-    public function requireLogin() {
+    public function requireLogin()
+    {
         if (!isset($_SESSION['usuario'])) {
             header("Location: index.php");
             exit();
@@ -38,7 +41,8 @@ class Controlador{
     /* Fin Verificar sesion */
 
     /* Login Admin */
-    public function procesarLogin($correo, $password) {
+    public function procesarLogin($correo, $password)
+    {
         $gestor = new Gestor();
         $result = $gestor->validarLogin($correo, $password);
         $usuario = $result->fetch_object();
@@ -47,7 +51,6 @@ class Controlador{
             $_SESSION['usuario'] = $usuario;
             header("Location: index.php?accion=mostrarAdminProductos");
             exit;
-
         } else {
             header("Location: index.php?accion=login&error=1");
             exit;
@@ -56,7 +59,8 @@ class Controlador{
     /* Fin Login Admin */
 
     /* Login Cliente */
-    public function procesarLoginCliente($correo, $password) {
+    public function procesarLoginCliente($correo, $password)
+    {
         $gestor = new Gestor();
         $usuario = $gestor->buscarUsuarioCliente($correo, $password);
         if ($usuario) {
@@ -71,19 +75,22 @@ class Controlador{
     /* Fin Login Cliente */
 
     /* Productos */
-    public function mostrarProductos() {
+    public function mostrarProductos()
+    {
         $gestor = new Gestor();
         $productos = $gestor->consultarProductos();
         require 'Vista/html/admin/productos.php';
     }
 
-    public function mostrarAgregarProducto() {
+    public function mostrarAgregarProducto()
+    {
         $gestor = new Gestor();
         $categorias = $gestor->consultarcategorias();
         require 'Vista/html/admin/agregarProductos.php';
     }
 
-    public function agregarProducto($nombre, $marca, $modelo, $tipo, $especificaciones, $precio, $categoria, $imagenes) {
+    public function agregarProducto($nombre, $marca, $modelo, $tipo, $especificaciones, $precio, $categoria, $imagenes)
+    {
         $producto = new Productos($nombre, $marca, $modelo, $tipo, $especificaciones, $precio, $categoria);
         $gestor = new Gestor();
         $id_producto = $gestor->agregarProducto($producto);
@@ -112,7 +119,8 @@ class Controlador{
         exit;
     }
 
-    public function mostrarEditarProducto($id) {
+    public function mostrarEditarProducto($id)
+    {
         $gestor = new Gestor();
         $producto = $gestor->consultarProductoPorId($id);
         $categorias = $gestor->consultarCategorias();
@@ -120,7 +128,8 @@ class Controlador{
         require 'Vista/html/admin/editarProductos.php';
     }
 
-    public function editarProductos($post, $files) {
+    public function editarProductos($post, $files)
+    {
         $id = $post['id'];
         $nombre = $post['nombre'];
         $marca = $post['marca'];
@@ -163,11 +172,12 @@ class Controlador{
         exit;
     }
 
-    public function eliminarProductos($id) {
+    public function eliminarProductos($id)
+    {
         $gestor = new Gestor();
         $producto = $gestor->consultarProductoPorId($id);
         if ($producto && file_exists($producto->imagen)) {
-            unlink($producto->imagen); 
+            unlink($producto->imagen);
         }
         $gestor->eliminarProductos($id);
         header("Location: index.php?accion=mostrarAdminProductos");
@@ -190,13 +200,15 @@ class Controlador{
     /* Fin Productos */
 
     /* Categorias */
-    public function mostrarCategorias() {
+    public function mostrarCategorias()
+    {
         $gestor = new Gestor();
         $categorias = $gestor->consultarCategorias();
         require 'Vista/html/admin/categorias.php';
     }
 
-    public function agregarCategorias($post) {
+    public function agregarCategorias($post)
+    {
         $nombre = $post['nombre'];
         $categoria = new Categorias($nombre);
         $gestor = new Gestor();
@@ -205,20 +217,23 @@ class Controlador{
         exit;
     }
 
-    public function eliminarCategorias($id) {
+    public function eliminarCategorias($id)
+    {
         $gestor = new Gestor();
         $gestor->eliminarCategorias($id);
         header("Location: index.php?accion=mostrarAdminCategorias");
         exit;
     }
 
-    public function mostrarEditarCategoria($id) {
+    public function mostrarEditarCategoria($id)
+    {
         $gestor = new Gestor();
         $categoria = $gestor->consultarCategoriaPorId($id);
         require 'Vista/html/admin/editarCategorias.php';
     }
 
-    public function editarCategoria($post) {
+    public function editarCategoria($post)
+    {
         $id = $post['id'];
         $nombre = $post['nombre'];
         $gestor = new Gestor();
@@ -229,19 +244,22 @@ class Controlador{
     /* Fin Categorias */
 
     /* Pedidos */
-    public function mostrarPedidos() {
+    public function mostrarPedidos()
+    {
         $gestor = new Gestor();
         $pedidos = $gestor->consultarPedidos();
         require 'Vista/html/admin/pedidos.php';
     }
 
-    public function mostrarFormularioPedido($id_producto) {
+    public function mostrarFormularioPedido($id_producto)
+    {
         $gestor = new Gestor();
         $producto = $gestor->consultarProductoPorId($id_producto);
         require 'Vista/html/solicitarPedido.php';
     }
 
-    public function guardarPedido($post) {
+    public function guardarPedido($post)
+    {
         $correo = $post['correo'];
         $password = $post['password'];
         $id_producto = $post['id_producto'];
@@ -259,7 +277,8 @@ class Controlador{
         }
     }
 
-    public function cambiarEstadoPedido($post) {
+    public function cambiarEstadoPedido($post)
+    {
         $id_pedido = $post['id_pedido'];
         $nuevo_estado = $post['estado'];
         $gestor = new Gestor();
@@ -270,12 +289,14 @@ class Controlador{
     /* Fin Pedidos */
 
     /* Registro */
-    public function mostrarRegister() {
+    public function mostrarRegister()
+    {
         $gestor = new Gestor();
         require 'Vista/html/registroCliente.php';
     }
 
-    public function registrarUsuario($post) {
+    public function registrarUsuario($post)
+    {
         $nombre = $post['nombre'];
         $correo = $post['correo'];
         $password = $post['password'];
@@ -289,12 +310,70 @@ class Controlador{
     /* Fin registro */
 
     /* Dashboard */
-    public function mostrarDashboard() {
+    public function mostrarDashboard()
+    {
         $gestor = new Gestor();
         $productoMasVendido = $gestor->consultarProductoMasVendido();
         require 'Vista/html/admin/dashboard.php';
     }
     /* Fin Dashboard */
-}
 
-?>
+    /* Carrito */
+    public function agregarAlCarrito($id_producto)
+    {
+        if (!isset($_SESSION['carrito'])) {
+            $_SESSION['carrito'] = [];
+        }
+        if (isset($_SESSION['carrito'][$id_producto])) {
+            $_SESSION['carrito'][$id_producto]++;
+        } else {
+            $_SESSION['carrito'][$id_producto] = 1;
+        }
+        header("Location: index.php?accion=verCarrito");
+        exit;
+    }
+
+    public function verCarrito()
+    {
+        $gestor = new Gestor();
+        $carrito = [];
+        if (isset($_SESSION['carrito'])) {
+            foreach ($_SESSION['carrito'] as $id_producto => $cantidad) {
+                $producto = $gestor->consultarProductoPorId($id_producto);
+                if ($producto) {
+                    $producto->cantidad = $cantidad;
+                    $carrito[] = $producto;
+                }
+            }
+        }
+        require 'Vista/html/carrito.php';
+    }
+
+    public function quitarDelCarrito($id_producto)
+    {
+        if (isset($_SESSION['carrito'][$id_producto])) {
+            unset($_SESSION['carrito'][$id_producto]);
+        }
+        header("Location: index.php?accion=verCarrito");
+        exit;
+    }
+    public function confirmarPedidoCarrito($post)
+    {
+        $correo = $post['correo'];
+        $password = $post['password'];
+        $gestor = new Gestor();
+        $usuario = $gestor->buscarUsuarioCliente($correo, $password);
+        if ($usuario && isset($_SESSION['carrito'])) {
+            foreach ($_SESSION['carrito'] as $id_producto => $cantidad) {
+                $gestor->guardarPedido($usuario->id, $id_producto, $cantidad);
+            }
+            unset($_SESSION['carrito']);
+            header("Location: index.php?mensaje=pedido_ok");
+            exit;
+        } else {
+            header("Location: index.php?accion=verCarrito&mensaje=usuario_no_encontrado");
+            exit;
+        }
+    }
+    /* fin del carrito */
+}
