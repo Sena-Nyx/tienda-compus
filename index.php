@@ -99,6 +99,10 @@ if (isset($_GET["accion"])) {
     } elseif ($_GET["accion"] == "confirmarPedidoCarrito") {
         $controlador->confirmarPedidoCarrito($_POST);
     }
+    elseif ($_GET["accion"] == "mostrarImagenesProductos") {
+        $controlador->requireLogin();
+        $controlador->mostrarImagenesProductos();
+    }
 } else {
     $controlador->mostrarCatalogo();
 }
