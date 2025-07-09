@@ -200,14 +200,16 @@ class Controlador
         exit;
     }
 
-    public function mostrarImagenesProductos() {
+    public function mostrarImagenesProductos()
+    {
         $gestor = new Gestor();
         $id_producto = $_GET['id'];
         $imagenes = $gestor->consultarImagenesProductos($id_producto);
         require 'Vista/html/admin/imagenesProductos.php';
     }
 
-    public function eliminarImagen($id_imagen, $id_producto) {
+    public function eliminarImagen($id_imagen, $id_producto)
+    {
         $gestor = new Gestor();
         $gestor->eliminarImagenProducto($id_imagen);
         header("Location: index.php?accion=mostrarImagenesProducto&id=$id_producto");
@@ -364,7 +366,6 @@ class Controlador
         }
         require 'Vista/html/carrito.php';
     }
-
     public function quitarDelCarrito($id_producto)
     {
         if (isset($_SESSION['carrito'][$id_producto])) {
@@ -375,19 +376,32 @@ class Controlador
     }
     public function confirmarPedidoCarrito($post)
     {
+        require_once 'Modelo/Conexion.php';
         $correo = $post['correo'];
         $password = $post['password'];
-        $gestor = new Gestor();
-        $usuario = $gestor->buscarUsuarioCliente($correo, $password);
-        if ($usuario && isset($_SESSION['carrito'])) {
-            foreach ($_SESSION['carrito'] as $id_producto => $cantidad) {
-                $gestor->guardarPedido($usuario->id, $id_producto, $cantidad);
+
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $sql = "SELECT id FROM usuarios WHERE correo = '$correo' AND password = '$password'";
+        $conexion->consulta($sql);
+        $result = $conexion->obtenerResult();
+
+        if ($row = $result->fetch_assoc()) {
+            $id_usuario = $row['id'];
+
+            $carrito = isset($_SESSION['carrito']) ? $_SESSION['carrito'] : [];
+            $fecha = date('Y-m-d H:i:s');
+            $estado = 'pendiente';
+            foreach ($carrito as $id_producto => $cantidad) {
+                $sqlPedido = "INSERT INTO pedidos (id_usuario, id_producto, cantidad, fecha, estado) 
+                  VALUES ($id_usuario, $id_producto, $cantidad, '$fecha', '$estado')";
+                $conexion->consulta($sqlPedido);
             }
-            unset($_SESSION['carrito']);
-            header("Location: index.php?mensaje=pedido_ok");
+            $_SESSION['carrito'] = [];
+            header("Location: index.php?accion=verCarrito&mensaje=Pedido confirmado");
             exit;
         } else {
-            header("Location: index.php?accion=verCarrito&mensaje=usuario_no_encontrado");
+            header("Location: index.php?accion=verCarrito&error=Usuario o contraseña incorrectos");
             exit;
         }
     }
