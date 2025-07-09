@@ -275,7 +275,6 @@ class Gestor
                 FROM productos p
                 JOIN categorias c ON p.id_categoria = c.id
                 LIMIT $offset, $limit";
-
         $conexion->consulta($sql);
         $result = $conexion->obtenerResult();
         $conexion->cerrar();
