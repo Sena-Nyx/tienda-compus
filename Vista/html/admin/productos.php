@@ -55,8 +55,7 @@
               <td>
                 <a href="index.php?accion=mostrarEditarProducto&id=<?php echo $prod->id; ?>"><button>Editar</button></a>
                 <a href="index.php?accion=eliminarProducto&id=<?php echo $prod->id; ?>" onclick="return confirm('Esta seguro que quiere eliminar esta productoahor?');"><button>Eliminar</button></a>
-                <a href="index.php?accion=mostrarImagenesProducto&id=<?php echo $prod->id; ?>"><button>Imagenes</button></a>
-              </td>
+                <a href="index.php?accion=mostrarImagenesProductos&id=<?php echo $prod->id; ?>"><button>Imagenes</button></a></td>
             </tr>
           </tbody>
           <?php } ?>
