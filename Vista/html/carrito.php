@@ -20,6 +20,16 @@
     </header>
     <section>
         <h2>Productos en el carrito</h2>
+        <?php if (isset($_GET['mensaje'])): ?>
+            <div style="color: green; font-weight: bold;">
+                <?php echo htmlspecialchars($_GET['mensaje']); ?>
+            </div>
+        <?php endif; ?>
+        <?php if (isset($_GET['error'])): ?>
+            <div style="color: red; font-weight: bold;">
+                <?php echo htmlspecialchars($_GET['error']); ?>
+            </div>
+        <?php endif; ?>
         <?php if (!empty($carrito)) { ?>
             <div style="display: flex; justify-content: center; margin-bottom: 30px;">
                 <table>
@@ -53,7 +63,7 @@
             <form action="index.php?accion=confirmarPedidoCarrito" method="post">
                 <input type="email" name="correo" placeholder="Correo registrado" required>
                 <input type="password" name="password" placeholder="Contraseña" required>
-                <button type="submit">Confirmar Pedido</button>
+                <button type="submit">Confirmar pedido</button>
             </form>
         <?php } else { ?>
             <p>El carrito está vacío.</p>

@@ -256,55 +256,31 @@ class Gestor
         return $result->fetch_object();
     }
 
-<<<<<<< HEAD
     public function consultarImagenesProductos($id_producto) {
-=======
-    public function consultarImagenesProductos($id_producto) 
-    {
->>>>>>> d7fbdddd731dc0da10f8346e19a6ce2fa3d58d0a
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "SELECT * FROM imagenes WHERE id_producto = '$id_producto'";
         $conexion->consulta($sql);
-<<<<<<< HEAD
         $result = $conexion->obtenerResult();   
         $conexion->cerrar();
         return $result;
     }
-=======
-        $result = $conexion->obtenerResult();
-        $conexion->cerrar();
-        return $result;
-    }
-
->>>>>>> d7fbdddd731dc0da10f8346e19a6ce2fa3d58d0a
     //Paginación de productos
     public function consultarProductosPaginados($offset, $limit)
     {
         $conexion = new Conexion();
         $conexion->abrir();
         $sql = "SELECT p.id, p.nombre, p.marca, p.modelo, p.tipo, p.especificaciones, p.precio, c.nombre AS categoria, 
-<<<<<<< HEAD
                 (SELECT imagen FROM imagenes WHERE id_producto = p.id LIMIT 1) AS imagen
                 FROM productos p
                 JOIN categorias c ON p.id_categoria = c.id
                 LIMIT $offset, $limit";
 
-=======
-                   (SELECT imagen FROM imagenes WHERE id_producto = p.id LIMIT 1) AS imagen
-            FROM productos p
-            JOIN categorias c ON p.id_categoria = c.id
-            LIMIT $offset, $limit";
->>>>>>> d7fbdddd731dc0da10f8346e19a6ce2fa3d58d0a
         $conexion->consulta($sql);
         $result = $conexion->obtenerResult();
         $conexion->cerrar();
         return $result;
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> d7fbdddd731dc0da10f8346e19a6ce2fa3d58d0a
 
     public function contarProductos()
     {
